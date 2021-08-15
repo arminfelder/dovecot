@@ -1,0 +1,8 @@
+tokeninfo_url = https://id.felder-edv.at/auth/realms/master/protocol/openid-connect/token
+introspection_url = https://id.felder-edv.at/auth/realms/master/protocol/openid-connect/userinfo
+#force_introspection = yes
+username_attribute = prefered_username
+#client_id = mail
+#client_secret = 5f2a5735-edae-405f-9829-90a5cae314b0
+debug = yes
+scope = email prefered_username

@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dovecot
+spec:
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 0
+  selector:
+    matchLabels:
+      app: dovecot
+  template:
+    metadata:
+      labels:
+        app: dovecot
+    spec:
+      containers:
+        - name: dovecot
+          image: afelder/dovecot:0.4
+          ports:
+            - containerPort: 993
+              hostPort: 993
+              name: imaps
+          volumeMounts:
+            - mountPath: /etc/dovecot/conf.d/10-auth.conf
+              subPath: 10-auth.conf
+              name: config
+            - mountPath: /etc/dovecot/conf.d/auth-oauth2.conf.ext
+              subPath: auth-oauth2.conf.ext
+              name: config
+            - mountPath: /etc/dovecot/dovecot-oauth2.conf.ext
+              name: config
+              subPath: dovecot-oauth2.conf.ext
+            - mountPath: /etc/dovecot/dovecot.conf
+              name: config
+              subPath: dovecot.conf
+            - mountPath: /etc/dovecot/private/dovecot.pem
+              name: cert
+              subPath: tls.crt
+            - mountPath: /etc/dovecot/private/dovecot.key
+              name: cert
+              subPath: tls.key
+      hostNetwork: true
+      volumes:
+        - name: config
+          configMap:
+            name: dovecot
+        - name: cert
+          secret:
+            secretName: mail-tls
