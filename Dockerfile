@@ -12,6 +12,10 @@ RUN mkdir -p /var/vmail/
 RUN groupadd vmail
 RUN useradd vmail -g vmail  -d /var/vmail/
 
-RUN chown -R vmail:vmail /var/vmail/
+RUN chown -R mail:mail /var/vmail/
+
+RUN mkdir /run/dovecot
+
+RUN chown -R 1000:1000 /run/dovecot
 
 CMD ["dovecot","-F"]
