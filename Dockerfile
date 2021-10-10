@@ -15,7 +15,8 @@ RUN useradd vmail -g vmail  -d /var/vmail/
 RUN chown -R mail:mail /var/vmail/
 
 RUN mkdir /run/dovecot
-
+RUN mkdir /var/run/dovecot
 RUN chown -R 1000:1000 /run/dovecot
+RUN chown -R 1000:1000 /var/run/dovecot
 
 CMD ["dovecot","-F"]
